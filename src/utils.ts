@@ -1,0 +1,46 @@
+export const slugify = (input: string) => {
+	if (!input) return '';
+
+	// Normalize common tech punctuation so tags stay readable.
+	let slug = input
+		.normalize('NFKC')
+		.toLowerCase()
+		.trim()
+		.replace(/\+/g, ' plus ')
+		.replace(/#/g, ' sharp ')
+		.replace(/&/g, ' and ');
+
+	// Remove accents while keeping non-Latin scripts like Chinese intact.
+	slug = slug.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+	// Replace punctuation with spaces but keep unicode letters/numbers.
+	slug = slug.replace(/[^\p{Letter}\p{Number}\s-]/gu, ' ').trim();
+
+	// replace multiple spaces or hyphens with a single hyphen
+	slug = slug.replace(/[\s-]+/g, '-');
+
+	return slug;
+};
+
+export const unslugify = (slug: string) =>
+	slug.replace(/\-/g, ' ').replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase());
+
+export const kFormatter = (num: number) => {
+	return Math.abs(num) > 999 ? (Math.sign(num) * (Math.abs(num) / 1000)).toFixed(1) + 'k' : Math.sign(num) * Math.abs(num);
+};
+
+export const getRepositoryDetails = async (repositoryFullname: string) => {
+	const token = import.meta.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+	const headers: HeadersInit = {
+		'X-GitHub-Api-Version': '2022-11-28'
+	};
+	if (token) {
+		headers.Authorization = `Bearer ${token}`;
+	}
+	const repoDetails = await fetch('https://api.github.com/repos/' + repositoryFullname, {
+		method: 'GET',
+		headers
+	});
+	const response = await repoDetails.json();
+	return response;
+};

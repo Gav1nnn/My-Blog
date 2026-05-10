@@ -1,0 +1,29 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'a'>;
+
+const { href, class: className, ...props } = Astro.props;
+
+const { pathname } = Astro.url;
+const normalizePath = (path?: string) => {
+	if (!path) return '';
+	if (path === '/') return '/';
+	return `/${path.replace(/^\/+|\/+$/g, '')}/`;
+};
+
+const currentPath = normalizePath(pathname);
+const targetPath = typeof href === 'string' ? normalizePath(href) : '';
+const isActive =
+	targetPath === '/'
+		? currentPath === '/'
+		: Boolean(targetPath) && currentPath.startsWith(targetPath);
+---
+
+<a
+	href={href}
+	class:list={[className, { 'border-b border-zinc-500 dark:border-zinc-300': isActive }, { 'text-zinc-600 dark:text-zinc-200 hover:text-zinc-900 dark:hover:text-zinc-50': !isActive }, { 'text-zinc-950 dark:text-zinc-50': isActive }]}
+	{...props}
+>
+	<slot />
+</a>

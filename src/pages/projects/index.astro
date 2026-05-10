@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectList from '../../components/ProjectList.astro';
+import { projects } from '../../data/projects';
+
+const title = '项目'
+const description = '公开整理中的项目、实验和阶段性作品。'
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+>
+  <div class='container'>
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-zinc-700 dark:text-zinc-300 text-lg">{description}</p>
+    </div>
+    <ProjectList projects={projects}/>
+  </div>
+</BaseLayout>
+

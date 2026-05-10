@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseLayout from '@src/layouts/BaseLayout.astro';
+import { slugify, unslugify } from '@src/utils';
+import PostsByYear from '@src/components/PostsByYear.astro';
+
+type BlogPost = CollectionEntry<'blog'>;
+export const getStaticPaths = async () => {
+	const allPosts: BlogPost[] = await getCollection('blog');
+	const tags = new Map<string, string>();
+	for (const post of allPosts) {
+		for (const tag of post.data.tags || []) {
+			const slug = slugify(tag);
+			if (!slug || tags.has(slug)) {
+				continue;
+			}
+			tags.set(slug, tag);
+		}
+	}
+
+	return Array.from(tags.entries()).map(([slug, tagLabel]) => ({
+		params: { tag: slug },
+		props: { tagLabel }
+	}));
+};
+
+const { tag } = Astro.params;
+const { tagLabel } = Astro.props;
+const allPosts: BlogPost[] = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const taggedPosts = allPosts.filter((post) => post.data.tags?.map((tag) => slugify(tag)).includes(tag || ''));
+const resolvedTagLabel = tagLabel || unslugify(tag || '');
+const title = `标签：${resolvedTagLabel}`;
+const description = `浏览与 ${resolvedTagLabel} 相关的文章。`;
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+>
+  <div class='container'>
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+    </div>
+    <PostsByYear posts={taggedPosts}/>
+  </div>
+</BaseLayout>

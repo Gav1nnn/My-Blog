@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Prose from '../components/Prose.astro';
+
+---
+
+<BaseLayout
+  title="关于我"
+  description="关于 Gavin：学习软件工程，记录开发实践，也记录正在形成中的方法论。"
+>
+  <div class='container'>
+    <main class='prose text-lg dark:prose-invert'>
+      <article>
+        <div class='w-full md:flex md:items-center gap-16 mb-10'>
+          <div class="text-pretty leading-9">
+            <h1 class="text-4xl font-bold mb-4">👋 关于我</h1>
+            <Prose>
+              <div class="text-lg">
+                <p>嗨，我是一个正在努力升级打怪的学生。<br/>
+                现在主要在学习软件工程、全栈开发，也在慢慢建立自己的技术表达方式。</p>
+              </div>
+            </Prose>
+          </div>
+        </div>     
+
+        <div>
+          <h3>💻 学习方向：</h3>
+          <ul>
+            <li>关注工程化、Web 开发和日常编码习惯的打磨。</li>
+            <li>希望把“会写”继续推进到“写得清楚、写得稳定、写得可维护”。</li>
+          </ul>
+
+          <h3>🎵 日常爱好：</h3>
+          <ul>
+            <li>喜欢音乐，也喜欢把写代码时的情绪留在歌单里。</li>
+            <li>偶尔看动漫、记灵感，尽量让学习这件事长期可持续。</li>
+          </ul>
+
+          <h3>📖 关于博客：</h3>
+          <p>
+            这里会优先记录技术学习、开发实践和项目复盘。<br/>
+            我希望把零散的经验整理成以后自己也愿意回头看的文章。
+          </p>
+
+          <p>如果这些内容刚好也帮到了你，那这件事就更值得继续做下去。</p>
+        </div>
+      </article>
+    </main>
+  </div>
+</BaseLayout>

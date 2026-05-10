@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NotFoundImage from '@src/assets/img/404-not-found.png';
+---
+
+<BaseLayout title={'页面未找到 - ' + SITE_TITLE} description={SITE_DESCRIPTION + ' 页面未找到'}>
+	<div class='container text-center'>
+		<Image width={300} class='my-8 mx-auto' src={NotFoundImage} alt='页面未找到' />
+		<div class='p-4'>
+			<h1 class='text-5xl font-bold my-4'>页面未找到</h1>
+			<p class='text-xl'>
+				你访问的页面可能已被移动，或者暂时不存在。<br />
+				可以返回首页继续浏览，也可以稍后再来看看。
+			</p>
+		</div>
+	</div>
+</BaseLayout>
