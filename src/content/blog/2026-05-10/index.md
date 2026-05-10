@@ -1,5 +1,5 @@
 ---
-title: "面向 Agent 开发的 AI 基础入门：Transformer、神经网络与 NLP"
+title: "面向 Agent 开发的 AI 基础入门"
 seoTitle: "面向 Agent 开发的 AI 基础入门 | Gavin's Blog"
 description: "从工程开发者的视角，系统梳理一些基础知识，建立一套清晰的框架"
 pubDate: 2026-05-10
