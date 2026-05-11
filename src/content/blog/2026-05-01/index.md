@@ -4,10 +4,9 @@ seoTitle: "后端开发者如何理解 AI、LLM 与 Agent | Gavin's Blog"
 description: "从后端工程视角梳理 AI、机器学习、深度学习、神经网络、Transformer、NLP、LLM、RAG 与 Agent 之间的关系。"
 pubDate: 2026-05-10
 tags:
-  - AI
+  - AI系列
   - LLM
   - Agent
-  - 学习记录
 ---
 
 ## 前言

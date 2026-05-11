@@ -4,11 +4,9 @@ seoTitle: "从神经网络到 Transformer：理解大语言模型的基础架构
 description: "从后端开发者视角理解神经网络、训练与推理、Tokenization、Embedding、Attention、Transformer 与 GPT 的基本原理。"
 pubDate: 2026-05-11
 tags:
-  - AI
+  - AI系列
   - Transformer
   - 神经网络
-  - LLM
-  - 学习记录
 ---
 
 ## 前言
