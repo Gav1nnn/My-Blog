@@ -2,7 +2,7 @@
 title: "Agent 是什么：从 LLM、RAG 到工具调用的工程系统"
 seoTitle: "Agent 是什么：从 LLM、RAG 到工具调用的工程系统 | Gavin's Blog"
 description: "从后端工程视角理解 Agent：LLM、RAG、Tool Calling、Memory、Workflow 如何组合成一个可以完成任务的智能系统。"
-pubDate: 2026-05-13
+pubDate: 2026-05-14
 tags:
   - AI系列
   - Tool Calling
