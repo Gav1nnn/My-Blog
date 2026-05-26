@@ -2,12 +2,21 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from '@src/layouts/BaseLayout.astro';
-import { slugify, unslugify } from '@src/utils';
+import { assertUniqueTagSlugs, slugify, unslugify } from '@src/utils';
 import PostsByYear from '@src/components/PostsByYear.astro';
 
 type BlogPost = CollectionEntry<'blog'>;
 export const getStaticPaths = async () => {
 	const allPosts: BlogPost[] = await getCollection('blog');
+	assertUniqueTagSlugs(
+		allPosts.flatMap((post) =>
+			(post.data.tags || []).map((tag) => ({
+				slug: slugify(tag),
+				label: tag
+			}))
+		)
+	);
+
 	const tags = new Map<string, string>();
 	for (const post of allPosts) {
 		for (const tag of post.data.tags || []) {

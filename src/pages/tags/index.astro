@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from '@src/layouts/BaseLayout.astro';
-import { slugify } from '@src/utils';
+import { assertUniqueTagSlugs, slugify } from '@src/utils';
 
 type BlogPost = CollectionEntry<'blog'>;
 interface Tag {
@@ -30,6 +30,15 @@ function groupTagsByFirstLetter(tags: Tag[]) {
 }
 
 const allPosts: BlogPost[] = await getCollection('blog');
+assertUniqueTagSlugs(
+	allPosts.flatMap((post) =>
+		(post.data?.tags || []).map((tag) => ({
+			slug: slugify(tag),
+			label: tag
+		}))
+	)
+);
+
 const mappedTags: { [key: string]: Tag } = {};
 for (const post of allPosts) {
 	for (const tag of post.data?.tags || []) {
@@ -61,7 +70,7 @@ const description = '按标签浏览文章。'
       <p class="text-zinc-700 dark:text-zinc-300 text-lg">{description}</p>
     </div>
     <div>
-      {groupedTags.map(({ letter, tags }) => (
+      {groupedTags.map(({ tags }) => (
         <div class="border-b dark:border-b-zinc-700 py-3 mb-5 capitalize">
 	          <div class='flex gap-2 flex-wrap'>
 	            {

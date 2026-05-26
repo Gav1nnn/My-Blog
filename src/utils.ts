@@ -25,6 +25,21 @@ export const slugify = (input: string) => {
 export const unslugify = (slug: string) =>
 	slug.replace(/\-/g, ' ').replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase());
 
+export const assertUniqueTagSlugs = (pairs: Array<{ slug: string; label: string }>) => {
+	const seen = new Map<string, string>();
+
+	for (const { slug, label } of pairs) {
+		if (!slug) continue;
+
+		const existing = seen.get(slug);
+		if (existing && existing !== label) {
+			throw new Error(`Tag slug collision: "${existing}" and "${label}" both resolve to "${slug}".`);
+		}
+
+		seen.set(slug, label);
+	}
+};
+
 export const kFormatter = (num: number) => {
 	return Math.abs(num) > 999 ? (Math.sign(num) * (Math.abs(num) / 1000)).toFixed(1) + 'k' : Math.sign(num) * Math.abs(num);
 };

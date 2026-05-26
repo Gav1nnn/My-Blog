@@ -11,6 +11,7 @@ import { loadEnv } from 'vite';
 import { render } from 'astro:content';
 
 const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY, GISCUS_CATEGORY_ID } = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
+const hasGiscusConfig = [GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY, GISCUS_CATEGORY_ID].every(Boolean);
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -69,7 +70,7 @@ const { Content, headings } = await render(post);
 					<Content />
 				</Prose>
         {
-          GISCUS_REPO &&
+          hasGiscusConfig &&
             <script
               id='giscus-script'
               is:inline
