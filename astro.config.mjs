@@ -9,8 +9,8 @@ import { loadEnv } from 'vite';
 const { SITE = 'http://localhost:4321' } = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 const isProductionBuild = (process.env.NODE_ENV || 'development') === 'production';
 if (isProductionBuild && SITE === 'http://localhost:4321') {
-  throw new Error(
-    'SITE is still using the localhost default during a production build. Set SITE in your environment before deploying.'
+  console.warn(
+    '[astro.config] SITE is still using the localhost default during a production build. Set SITE in your environment to generate correct canonical, RSS, sitemap, and OG URLs.'
   );
 }
 
