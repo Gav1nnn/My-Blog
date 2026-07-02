@@ -1,3 +1,7 @@
+import type { CollectionEntry } from 'astro:content';
+
+type BlogPost = CollectionEntry<'blog'>;
+
 export const slugify = (input: string) => {
 	if (!input) return '';
 
@@ -38,6 +42,21 @@ export const assertUniqueTagSlugs = (pairs: Array<{ slug: string; label: string 
 
 		seen.set(slug, label);
 	}
+};
+
+export const sortBlogPostsByPubDate = <T extends BlogPost>(posts: T[]) =>
+	posts.toSorted((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+export const getTagSlugPairs = (posts: BlogPost[]) =>
+	posts.flatMap((post) =>
+		post.data.tags.map((tag) => ({
+			slug: slugify(tag),
+			label: tag
+		}))
+	);
+
+export const assertUniqueBlogTagSlugs = (posts: BlogPost[]) => {
+	assertUniqueTagSlugs(getTagSlugPairs(posts));
 };
 
 export const kFormatter = (num: number) => {

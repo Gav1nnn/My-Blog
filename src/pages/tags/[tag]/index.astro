@@ -2,24 +2,17 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import BaseLayout from '@src/layouts/BaseLayout.astro';
-import { assertUniqueTagSlugs, slugify, unslugify } from '@src/utils';
+import { assertUniqueBlogTagSlugs, slugify, sortBlogPostsByPubDate, unslugify } from '@src/utils';
 import PostsByYear from '@src/components/PostsByYear.astro';
 
 type BlogPost = CollectionEntry<'blog'>;
 export const getStaticPaths = async () => {
 	const allPosts: BlogPost[] = await getCollection('blog');
-	assertUniqueTagSlugs(
-		allPosts.flatMap((post) =>
-			(post.data.tags || []).map((tag) => ({
-				slug: slugify(tag),
-				label: tag
-			}))
-		)
-	);
+	assertUniqueBlogTagSlugs(allPosts);
 
 	const tags = new Map<string, string>();
 	for (const post of allPosts) {
-		for (const tag of post.data.tags || []) {
+		for (const tag of post.data.tags) {
 			const slug = slugify(tag);
 			if (!slug || tags.has(slug)) {
 				continue;
@@ -36,7 +29,7 @@ export const getStaticPaths = async () => {
 
 const { tag } = Astro.params;
 const { tagLabel } = Astro.props;
-const allPosts: BlogPost[] = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts: BlogPost[] = sortBlogPostsByPubDate(await getCollection('blog'));
 const taggedPosts = allPosts.filter((post) => post.data.tags?.map((tag) => slugify(tag)).includes(tag || ''));
 const resolvedTagLabel = tagLabel || unslugify(tag || '');
 const title = `标签：${resolvedTagLabel}`;

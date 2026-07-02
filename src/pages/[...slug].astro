@@ -15,7 +15,7 @@ const hasGiscusConfig = [GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY, GISCUS_CA
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
-	return posts.map((post: any) => ({
+	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: post
 	}));
@@ -115,7 +115,7 @@ const { Content, headings } = await render(post);
 				link.classList.remove('bg-[var(--background-surface-color)]', 'border-[var(--soft-border-color)]', 'text-[var(--link-color)]');
 			}
 			// then iterate backwards, on the first match highlight it and break
-			for (var i = anchors.length - 1; i >= 0; i--) {
+			for (let i = anchors.length - 1; i >= 0; i--) {
 				if (scrollTop > anchors[i].offsetTop - 80) {
 					links[i].classList.remove('border-transparent', 'text-inherit');
 					links[i].classList.add('bg-[var(--background-surface-color)]', 'border-[var(--soft-border-color)]', 'text-[var(--link-color)]');
@@ -125,10 +125,10 @@ const { Content, headings } = await render(post);
 		}
 	}
 
-	window.addEventListener('scroll', (event) => {
-		observeToc(event);
+	window.addEventListener('scroll', () => {
+		observeToc();
 	});
-	window.addEventListener('hashchange', (event) => {
-		observeToc(event);
+	window.addEventListener('hashchange', () => {
+		observeToc();
 	});
 </script>

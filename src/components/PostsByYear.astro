@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import PostItem from './PostItem.astro';
+import { sortBlogPostsByPubDate } from '@src/utils';
 
 type BlogPost = CollectionEntry<'blog'>;
 const { posts } = Astro.props;
@@ -19,7 +20,7 @@ function groupPostsByYear(posts: BlogPost[]) {
     .sort(([a], [b]) => Number(b) - Number(a))
     .map(([year, posts]) => ({
       year: Number(year),
-      posts: posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()),
+      posts: sortBlogPostsByPubDate(posts),
     }));
 }
 
