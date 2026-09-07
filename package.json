@@ -34,7 +34,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "vite": "^5.4.8",
+    "vite": "^8.2.2",
     "wrangler": "4.129.0"
   }
 }
