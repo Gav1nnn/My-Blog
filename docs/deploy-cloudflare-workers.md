@@ -1,6 +1,7 @@
 # Cloudflare Workers 部署清单
 
-这份文档对应当前仓库的推荐上线方式：`GitHub 仓库 + Cloudflare Workers Static Assets + workers.dev 域名`。
+当前博客使用 `GitHub 仓库 + Cloudflare Workers Static Assets`，正式域名为 `https://gavin.wiki`。
+已有 Cloudflare 项目迁移到 pnpm 时，直接检查第 4、5 节的命令和构建变量即可。
 
 ## 1. 创建你自己的 GitHub 仓库
 
@@ -25,7 +26,7 @@ cp .env.example .env
 至少要设置这个变量：
 
 ```bash
-SITE='https://blog.<your-subdomain>.workers.dev'
+SITE='https://gavin.wiki'
 ```
 
 说明：
@@ -33,6 +34,9 @@ SITE='https://blog.<your-subdomain>.workers.dev'
 - `SITE` 用于生成 canonical、sitemap、RSS 和 Open Graph URL
 - 如果后面绑定了自定义域名，再把它改成正式域名
 - `.env` 不要提交到仓库
+
+本地使用 Node.js 24 和 pnpm 10.34.5，安装依赖时运行 `pnpm install --frozen-lockfile`。
+Wrangler 已作为开发依赖固定在仓库内，不需要再通过 `npx` 临时下载。
 
 ## 3. 连接 Cloudflare
 
@@ -48,18 +52,28 @@ SITE='https://blog.<your-subdomain>.workers.dev'
 当前项目用下面这组配置：
 
 - Project name: `blog`
-- Build command: `npm run build`
-- Deploy command: `npm run deploy:cloudflare`
+- Build command: `pnpm install --frozen-lockfile && pnpm build`
+- Deploy command: `pnpm deploy:cloudflare`
 
 仓库已经包含 `wrangler.jsonc`，它会把构建后的 `dist/` 作为静态资源上传到 Workers。
 
 ## 5. 配置生产环境变量
 
-在 Cloudflare 项目的 `Settings -> Variables and Secrets` 中添加：
+在 Cloudflare 项目的 `Settings -> Build -> Build Variables and Secrets` 中添加：
 
 ```text
-SITE = https://blog.<your-subdomain>.workers.dev
+NODE_VERSION = 24
+PNPM_VERSION = 10.34.5
+SKIP_DEPENDENCY_INSTALL = 1
+SITE = https://gavin.wiki
 ```
+
+`SKIP_DEPENDENCY_INSTALL=1` 关闭平台自动安装，由第 4 节的构建命令执行冻结锁文件安装，避免重复安装。
+`PNPM_VERSION` 与 `package.json` 中的 `packageManager` 保持一致；后续升级 pnpm 时要同步更新。
+这些设置依据 [Cloudflare 构建镜像说明](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/)。
+
+`SITE` 必须是**构建环境变量**：Astro 在构建时生成静态页面，仅配置 Worker 运行时变量不会修正已经生成的 URL。
+本地 `.env` 不会自动上传到 Cloudflare。
 
 如果你暂时不用统计、评论或 GitHub API，这几个变量可以先留空：
 
@@ -93,6 +107,6 @@ SITE = https://blog.<your-subdomain>.workers.dev
 后续更新流程会很简单：
 
 1. 本地写文章或改页面
-2. 运行 `npm run build`
+2. 运行 `pnpm install --frozen-lockfile` 和 `pnpm build`
 3. 提交并 push 到 GitHub
 4. Cloudflare 自动重新部署
