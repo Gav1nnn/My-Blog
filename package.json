@@ -3,14 +3,18 @@
   "private": true,
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy:cloudflare": "npx wrangler deploy",
-    "preview:cloudflare": "npm run build && npx wrangler dev"
+    "deploy:cloudflare": "wrangler deploy",
+    "preview:cloudflare": "pnpm build && wrangler dev"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -30,6 +34,7 @@
     "@tailwindcss/typography": "^0.5.14",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "wrangler": "4.129.0"
   }
 }

@@ -1,0 +1,5 @@
+# 本项目是单包应用；这里只配置需要执行安装脚本的依赖。
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
