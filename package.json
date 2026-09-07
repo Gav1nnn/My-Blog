@@ -22,7 +22,7 @@
     "@astrojs/mdx": "^4.2.4",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/rss": "^4.0.11",
-    "@astrojs/sitemap": "^3.3.0",
+    "@astrojs/sitemap": "^3.7.4",
     "@astrojs/tailwind": "^6.0.2",
     "astro": "^5.7.4",
     "sharp": "^0.33.5",
