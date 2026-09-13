@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.20",
-    "prettier": "^3.3.3",
+    "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "vite": "^8.2.2",
     "wrangler": "4.129.0"
