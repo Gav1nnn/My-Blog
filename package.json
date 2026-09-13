@@ -35,6 +35,6 @@
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
     "vite": "^8.2.2",
-    "wrangler": "4.129.0"
+    "wrangler": "4.131.0"
   }
 }
